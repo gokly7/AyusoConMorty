@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  Ayuso&Morty
+
+  Created by Alberto Ayuso Boza on 3/4/25.
+  
+*/
+
+//Core
+"App_name" = "Ayuso & Morty";
+
+//DashboardView
+"DashboardView_subTitle" = "Characters";
+
+//TextfieldSearch
+"TextfieldSearch_placeHolder" = "Insert character name";
