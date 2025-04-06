@@ -10,6 +10,7 @@ import SwiftUI
 struct TextfieldSearch: View {
     @Binding var searchText: String
     @State var hintText: String = ""
+    var buttonRight: (() -> Void)?
     
     var body: some View {
         HStack {
@@ -18,6 +19,16 @@ struct TextfieldSearch: View {
             
             TextField(hintText, text: $searchText)
                 .textFieldStyle(PlainTextFieldStyle())
+            if !searchText.isEmpty {
+                Button(action: {
+                    if let action = buttonRight {
+                        action()
+                    }
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.gray)
+                }
+            }
         }
         .padding(.vertical, Spacing.s125)
         .padding(.horizontal, Spacing.s150)

@@ -24,11 +24,16 @@ struct DashboardView: View {
                 .foregroundColor(.black)
                 .padding(.horizontal, Spacing.s200)
             
-            TextfieldSearch(searchText: $inputSearch, hintText: NSLocalizedString("TextfieldSearch_placeHolder", comment: ""))
+            TextfieldSearch(searchText: $inputSearch, hintText: NSLocalizedString("TextfieldSearch_placeHolder", comment: ""), buttonRight: {
+                Task {
+                    inputSearch = ""
+                    await characterViewModel.searchCharacter(text: inputSearch)
+                }
+            })
                 .padding(.horizontal, Spacing.s200)
                 .onSubmit {
                     Task {
-                        characterViewModel.searchCharacters = inputSearch
+                        await characterViewModel.searchCharacter(text: inputSearch)
                     }
                 }
             
@@ -46,8 +51,10 @@ struct DashboardView: View {
                         //We review each character that appears on the screen to check if it is the last one on the page and to be able to start loading the next page.
                             .onAppear {
                                 if character == characterViewModel.characters.last {
-                                    Task {
-                                        await characterViewModel.loadPageCharacters()
+                                    if inputSearch.isEmpty{
+                                        Task {
+                                            await characterViewModel.loadPageCharacters()
+                                        }
                                     }
                                 }
                             }
