@@ -12,6 +12,7 @@ struct Ayuso_MortyApp: App {
     var body: some Scene {
         WindowGroup {
             DashboardView()
+                .preferredColorScheme(.light)
         }
     }
 }

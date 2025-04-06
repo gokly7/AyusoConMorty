@@ -1,6 +1,6 @@
 //
 //  Typography.swift
-//  Ayuso&Morty
+//  AyusoConMorty
 //
 //  Created by Alberto Ayuso Boza on 3/4/25.
 //

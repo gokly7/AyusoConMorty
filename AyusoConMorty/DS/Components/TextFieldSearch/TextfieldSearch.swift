@@ -1,6 +1,6 @@
 //
 //  TextfieldSearch.swift
-//  Ayuso&Morty
+//  AyusoConMorty
 //
 //  Created by Alberto Ayuso Boza on 3/4/25.
 //
@@ -19,8 +19,8 @@ struct TextfieldSearch: View {
             TextField(hintText, text: $searchText)
                 .textFieldStyle(PlainTextFieldStyle())
         }
-        .padding(.vertical, 10)
-        .padding(.horizontal, 12)
+        .padding(.vertical, Spacing.s125)
+        .padding(.horizontal, Spacing.s150)
         .overlay(
             RoundedRectangle(cornerRadius: 4)
                 .stroke(Color.gray, lineWidth: 2)
