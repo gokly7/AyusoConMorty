@@ -10,7 +10,6 @@ import SwiftUI
 struct CardImage: View {
     let model: CardImageModel
     
-    private let cardWidth: CGFloat = 180
     private let cardHeight: CGFloat = 220
     private let imageRatio: CGFloat = 0.70
     
@@ -50,7 +49,7 @@ struct CardImage: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(Color.white)
         }
-        .frame(width: cardWidth, height: cardHeight)
+        .frame(height: cardHeight)
         .background(Color.white)
         .cornerRadius(12)
         .shadow(radius: 4)
