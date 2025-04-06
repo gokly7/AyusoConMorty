@@ -1,6 +1,6 @@
 //
 //  DashboardView.swift
-//  Ayuso&Morty
+//  AyusoConMorty
 //
 //  Created by Alberto Ayuso Boza on 2/4/25.
 //
@@ -12,7 +12,7 @@ struct DashboardView: View {
     @Environment(\.scenePhase) private var scenePhase
     
     @State private var inputSearch: String = ""
-    @State private var showingSheet = false
+    @State private var selectedCharacter: CharacterModel? = nil
     
     private let columns = [GridItem(.flexible()), GridItem(.flexible())]
     
@@ -52,13 +52,7 @@ struct DashboardView: View {
                                 }
                             }
                             .onTapGesture {
-                                    showingSheet = true //TODO: mirar de simplificar esto
-                            }
-                        //TODO: Crear el CharacterSheet
-                            .sheet(isPresented: $showingSheet) {
-                                Text("Character Page")
-                                    .font(.largeTitle)
-                                    .padding()
+                                selectedCharacter = character
                             }
                     }
                 }
@@ -66,6 +60,10 @@ struct DashboardView: View {
                 //This is the first character load, make the request for the characters on the first page
                 .task {
                     await characterViewModel.loadPageCharacters()
+                }
+                .sheet(item: $selectedCharacter, onDismiss: {selectedCharacter = nil}) { character in
+                    CharacterSheet(character: character)
+                        .presentationDetents([.fraction(0.8)])
                 }
             }
             Spacer()

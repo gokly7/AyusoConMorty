@@ -1,16 +1,22 @@
 /* 
   Localizable.strings
-  Ayuso&Morty
+  AyusoConMorty
 
   Created by Alberto Ayuso Boza on 3/4/25.
   
 */
 
 //Core
-"app_name" = "Ayuso & Morty";
+"App_name" = "Ayuso & Morty";
 
 //DashboardView
 "DashboardView_subTitle" = "Personajes";
 
 //TextfieldSearch
 "TextfieldSearch_placeHolder" = "Busca el personaje";
+
+//CharacterSheet
+"CharacterSheet_level1" = "Estado";
+"CharacterSheet_level2" = "Especie";
+"CharacterSheet_level3" = "Género";
+"CharacterSheet_level4" = "Localización";

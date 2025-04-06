@@ -1,6 +1,6 @@
 //
 //  CharacterModel.swift
-//  Ayuso&Morty
+//  AyusoConMorty
 //
 //  Created by Alberto Ayuso Boza on 3/4/25.
 //
@@ -13,4 +13,11 @@ struct CharacterModel: Codable, Identifiable, Equatable, Hashable {
     let image: String
     let status: String
     let species: String
+    let gender: String
+    let location: CharacterLocationModel
 }
+
+struct CharacterLocationModel: Codable, Equatable, Hashable{
+    let name: String
+}
+
