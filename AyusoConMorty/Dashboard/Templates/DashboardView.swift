@@ -69,14 +69,6 @@ struct DashboardView: View {
             Spacer()
         }
         .padding(.top)
-        //When the app goes into the background it starts counting the cache lifetime. When it enters the screen the timer stops
-        .onChange(of: scenePhase) { oldPhase, newPhase in
-            if newPhase == .background {
-                characterViewModel.startCacheTimer()
-            } else if newPhase == .active {
-                characterViewModel.cacheTimer?.invalidate()
-            }
-        }
     }
 }
 

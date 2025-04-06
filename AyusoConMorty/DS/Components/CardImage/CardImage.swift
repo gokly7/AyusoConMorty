@@ -15,19 +15,19 @@ struct CardImage: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            AsyncImage(url: URL(string: model.image)) { phase in
-                    if let image = phase.image {
-                        image
-                            .resizable()
-                            .scaledToFill()
-                    }else {
-                        Color.gray // Placeholder, "Loading"
-                    }
+            ImageView(urlString: model.image) { image in
+                if let image = image {
+                    image
+                        .resizable()
+                        .scaledToFill()
+                } else {
+                        Color.gray
                 }
-                .scaledToFill()
-                .frame(height: cardHeight * imageRatio)
-                .clipped()
-
+            }
+            .scaledToFill()
+            .frame(height: cardHeight * imageRatio)
+            .clipped()
+            
             VStack(alignment: .leading, spacing: Spacing.s50) {
                 Text(model.title)
                     .font(.title3)

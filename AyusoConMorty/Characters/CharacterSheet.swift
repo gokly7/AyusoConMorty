@@ -14,20 +14,20 @@ struct CharacterSheet: View {
     var body: some View {
         NavigationView {
             VStack(spacing: Spacing.s200) {
-                AsyncImage(url: URL(string: character.image)) { phase in
-                        if let image = phase.image {
-                            image
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 120, height: 120)
-                                .clipShape(Circle())
-                                .shadow(radius: 4)
-                        }else {
-                            Circle()
-                                .fill(Color.gray)
-                                .frame(width: 120, height: 120)
-                                .shadow(radius: 4)
-                        }
+                ImageView(urlString: character.image) { image in
+                    if let image = image {
+                        image
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 120, height: 120)
+                            .clipShape(Circle())
+                            .shadow(radius: 4)
+                    } else {
+                        Circle()
+                            .fill(Color.gray)
+                            .frame(width: 120, height: 120)
+                            .shadow(radius: 4)
+                    }
                 }
                 
                 Text(character.name)

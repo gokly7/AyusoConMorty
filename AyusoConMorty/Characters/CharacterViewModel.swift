@@ -48,25 +48,6 @@ class CharacterViewModel: ObservableObject {
             await MainActor.run { self.isLoading = false }
         }
     }
-    
-    /// Start or reset the cache lifetime
-    func startCacheTimer() {
-        cacheTimer?.invalidate()
-        cacheTimer = Timer.scheduledTimer(withTimeInterval: 420, repeats: false) { [weak self] _ in
-            Task { @MainActor in
-                self?.clearCache()
-                await self?.loadPageCharacters()
-            }
-        }
-    }
-    
-    /// Reset values of CharacterViewModel
-    private func clearCache() {
-        self.characters = []
-        self.currentPage = 1
-        self.totalPages = 1
-    }
-    
 }
 
 ///This model needs to have the variable names with the same names as the JSON keys of the API "rickandmortyapi"
