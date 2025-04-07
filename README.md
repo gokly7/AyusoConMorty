@@ -1,5 +1,3 @@
-AyusoConMorty
-
 AyusoConMorty es una aplicación de iOS desarrollada en SwiftUI que muestra una grid con los personajes del universo de Rick and Morty.
 
     Lista Grid:
