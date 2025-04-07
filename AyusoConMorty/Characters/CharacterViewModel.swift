@@ -54,15 +54,15 @@ class CharacterViewModel: ObservableObject {
     /// - Parameters:
     ///   - text: Name of the character you want to search for
     func searchCharacter(text: String) async {
-        //Back to results of loadPageCharacters
+        //Back to results of loadPageCharacters() if text is Empty
         if text.isEmpty {
             await MainActor.run {
                 self.characters = self.cacheCharacters
             }
             return
         }
-        
-        let encodedQuery = text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        let clearLastSpace = text.replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)
+        let encodedQuery = clearLastSpace.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         var page = 1
         var totalPages = 1
         var allCharactersFound: [CharacterModel] = []
@@ -92,7 +92,7 @@ class CharacterViewModel: ObservableObject {
         } while page <= totalPages
         
         //Check if it is the exact name of the character (Ignore capital letters)
-        let filterCharacters = allCharactersFound.filter { $0.name.lowercased() == text.lowercased() }
+        let filterCharacters = allCharactersFound.filter { $0.name.lowercased() == clearLastSpace.lowercased() }
         
         await MainActor.run {
             self.characters = filterCharacters
