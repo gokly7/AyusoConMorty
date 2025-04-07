@@ -19,6 +19,7 @@ struct TextfieldSearch: View {
             
             TextField(hintText, text: $searchText)
                 .textFieldStyle(PlainTextFieldStyle())
+                .accessibilityIdentifier("textfieldSearch")
             if !searchText.isEmpty {
                 Button(action: {
                     if let action = buttonRight {

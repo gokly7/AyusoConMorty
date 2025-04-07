@@ -48,6 +48,7 @@ struct DashboardView: View {
                 LazyVGrid(columns: columns, spacing: Spacing.s200) {
                     ForEach(characterViewModel.characters) { character in
                         CardImage(model: CardImageModel(image: character.image, title: character.name, subTitle: "\(character.status) - \(character.species)", colorBullet: statusColor(status: character.status)))
+                            .accessibilityIdentifier("CardImage_\(character.id)")
                         //We review each character that appears on the screen to check if it is the last one on the page and to be able to start loading the next page.
                             .onAppear {
                                 if character == characterViewModel.characters.last {
@@ -72,6 +73,7 @@ struct DashboardView: View {
                     CharacterSheet(character: character)
                         .presentationDetents([.fraction(0.8)])
                 }
+                .accessibilityIdentifier("characterSheet")
             }
             Spacer()
         }

@@ -10,8 +10,8 @@ import SwiftUI
 class CharacterViewModel: ObservableObject {
     @Published var characters: [CharacterModel] = []
     
-    private var cacheCharacters: [CharacterModel] = []
-    private var isLoading: Bool = false
+    internal var cacheCharacters: [CharacterModel] = []
+    internal var isLoading: Bool = false
     private var currentPage: Int = 1
     private var totalPages: Int = 1
     
