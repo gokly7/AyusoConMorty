@@ -1,0 +1,4 @@
+# Ignorar datos de usuario de Xcode
+xcuserdata/
+*.xcbkptlist
+*.xcuserstate
