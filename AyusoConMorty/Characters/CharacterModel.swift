@@ -7,6 +7,20 @@
 
 import SwiftUI
 
+/// This model has the characters' data
+///
+/// Implements the protocols `Codable`, `Identifiable`, `Equatable`, `Hashable`.
+/// This model is used to decode character information from the API and integrate with SwiftUI,
+/// allowing use in lists and views that require unique identification.
+///
+/// - Properties:
+///   - id: Unique character identifier
+///   - name: Character name
+///   - image: Character image
+///   - status: Character's state of life
+///   - species: Character species
+///   - gender: Character's gender
+///   - location: Character location, use: `CharacterLocationModel`.
 struct CharacterModel: Codable, Identifiable, Equatable, Hashable {
     let id: Int
     let name: String
@@ -32,6 +46,13 @@ struct CharacterModel: Codable, Identifiable, Equatable, Hashable {
     }
 }
 
+/// This model has the data of the character's location.
+///
+/// Implements the protocols `Codable`, `Equatable`,  `Hashable`.
+/// This model is used to decode character information from the API and integrate with SwiftUI.
+///
+/// - Properties:
+///   - name: Character location
 struct CharacterLocationModel: Codable, Equatable, Hashable{
     let name: String
 }

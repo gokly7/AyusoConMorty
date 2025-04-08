@@ -8,6 +8,12 @@
 import SwiftUI
 import UIKit
 
+/// Image container view
+///
+/// This function is responsible for:
+/// - Calls ImageLoader to get the image
+/// - Creates an Imageview containing the image
+///
 struct ImageView<Content: View>: View {
     private let content: (Image?) -> Content
     @StateObject private var loader: ImageLoader
@@ -23,6 +29,12 @@ struct ImageView<Content: View>: View {
     }
 }
 
+/// The cache and its useful life
+///
+/// This function is responsible for:
+/// - Contains the image cache
+/// - It has a function capable of activating a 7 minute timer to destroy the image cache.
+///
 class ImageCache {
     static let shared: NSCache<NSString, UIImage> = {
         let cache = NSCache<NSString, UIImage>()

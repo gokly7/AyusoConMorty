@@ -15,7 +15,13 @@ class CharacterViewModel: ObservableObject {
     private var currentPage: Int = 1
     private var totalPages: Int = 1
     
-    ///Load a page of characters through the api
+    /// Load characters from the Rick and Morty API.
+    ///
+    /// It is an asynchronous function that is responsible for:
+    /// - Download from the API all the characters contained in the page indicated in the query
+    /// - Download the data response into the APIModel array
+    /// - Add all the characters from the page to the array characters.
+    ///
     func loadPageCharacters() async {
         //Check if there is no character loading in progress or if there are more pages left to load.
         await MainActor.run {
@@ -49,10 +55,18 @@ class CharacterViewModel: ObservableObject {
         }
     }
     
-    /// Search for characters by exact name
+    /// Search for a character from the Rick and Morty API.
     ///
     /// - Parameters:
     ///   - text: Name of the character you want to search for
+    ///
+    /// It is an asynchronous function that is responsible for:
+    /// - Download the characters found from the API by filtering by name. The query does not search for exact name results.
+    /// - A loop is made for each page that contains the response from the API.
+    /// - Download the response from the API, first check if any character has been found to exit the loop and then download the data into the APIModel array
+    /// - Add all the characters from the page to the array allCharactersFound
+    /// - Filter if there is one in the character array that contains the same name as the name you searched for and then add the characters found in the characters array
+    ///
     func searchCharacter(text: String) async {
         //Back to results of loadPageCharacters() if text is Empty
         if text.isEmpty {
@@ -100,13 +114,13 @@ class CharacterViewModel: ObservableObject {
     }
 }
 
-///This model needs to have the variable names with the same names as the JSON keys of the API "rickandmortyapi"
+/// This model needs to have the variable names with the same names as the JSON keys of the API "rickandmortyapi"
 private struct APIModel: Codable {
     let info: Info
     let results: [CharacterModel]
 }
 
-///This model needs to have the variable names with the same names as the keys in the key "character"
+/// This model needs to have the variable names with the same names as the keys in the key "character"
 private struct Info: Codable {
     let count: Int
     let pages: Int
@@ -114,6 +128,7 @@ private struct Info: Codable {
     let prev: String?
 }
 
+/// This model contains the values ​​that the request can return when an error occurs.
 private struct ErrorResponse: Codable {
     let error: String
 }
