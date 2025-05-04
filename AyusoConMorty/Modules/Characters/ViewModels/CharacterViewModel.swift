@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-class CharacterViewModel: ObservableObject {
-    @Published var characters: [CharacterModel] = []
+final class CharacterViewModel: ObservableObject {
+    @Published var characters: [Character] = []
     
-    internal var cacheCharacters: [CharacterModel] = []
+    internal var cacheCharacters: [Character] = []
     internal var isLoading: Bool = false
     private var currentPage: Int = 1
     private var totalPages: Int = 1
@@ -79,7 +79,7 @@ class CharacterViewModel: ObservableObject {
         let encodedQuery = clearLastSpace.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         var page = 1
         var totalPages = 1
-        var allCharactersFound: [CharacterModel] = []
+        var allCharactersFound: [Character] = []
         
         repeat {
             let urlString = "https://rickandmortyapi.com/api/character/?name=\(encodedQuery)&page=\(page)"
@@ -117,7 +117,7 @@ class CharacterViewModel: ObservableObject {
 /// This model needs to have the variable names with the same names as the JSON keys of the API "rickandmortyapi"
 private struct APIModel: Codable {
     let info: Info
-    let results: [CharacterModel]
+    let results: [Character]
 }
 
 /// This model needs to have the variable names with the same names as the keys in the key "character"

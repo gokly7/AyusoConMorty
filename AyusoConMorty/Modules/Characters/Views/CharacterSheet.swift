@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CharacterSheet: View {
     @Environment(\.presentationMode) var presentationMode
-    @State var character: CharacterModel
+    @State var character: Character
     
     var body: some View {
         NavigationView {
@@ -37,7 +37,7 @@ struct CharacterSheet: View {
                 
                 
                 VStack(alignment: .leading, spacing: Spacing.s150) {
-                    Row(text: NSLocalizedString("CharacterSheet_level1", comment: ""), value: character.status)
+                    Row(text: NSLocalizedString("CharacterSheet_level1", comment: ""), value: character.status.rawValue)
                     Divider()
                     Row(text: NSLocalizedString("CharacterSheet_level2", comment: ""), value: character.species)
                     Divider()

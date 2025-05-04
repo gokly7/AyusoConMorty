@@ -12,7 +12,7 @@ struct DashboardView: View {
     @Environment(\.scenePhase) private var scenePhase
     
     @State private var inputSearch: String = ""
-    @State private var selectedCharacter: CharacterModel? = nil
+    @State private var selectedCharacter: Character? = nil
     
     private let columns = [GridItem(.flexible()), GridItem(.flexible())]
     
@@ -47,7 +47,7 @@ struct DashboardView: View {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: Spacing.s200) {
                     ForEach(characterViewModel.characters) { character in
-                        CardImage(model: CardImageModel(image: character.image, title: character.name, subTitle: "\(character.status) - \(character.species)", colorBullet: statusColor(status: character.status)))
+                        CardImageView(model: CardImageModel(character: character))
                             .accessibilityIdentifier("CardImage_\(character.id)")
                         //We review each character that appears on the screen to check if it is the last one on the page and to be able to start loading the next page.
                             .onAppear {
@@ -78,18 +78,5 @@ struct DashboardView: View {
             Spacer()
         }
         .padding(.top)
-    }
-}
-
-private func statusColor(status: String) -> Color {
-    switch status {
-    case "Alive":
-        return .green
-    case "unknown":
-        return .gray
-    case "Dead":
-        return .red
-    default:
-        return .black
     }
 }

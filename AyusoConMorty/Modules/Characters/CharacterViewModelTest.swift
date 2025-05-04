@@ -11,7 +11,7 @@ extension CharacterViewModel {
     var isLoadingTest: Bool {
         return self.isLoading
     }
-    var cacheCharactersTest: [CharacterModel] {
+    var cacheCharactersTest: [Character] {
         return self.cacheCharacters
     }
 }

@@ -1,5 +1,5 @@
 //
-//  CardImage.swift
+//  CardImageView.swift
 //  AyusoConMorty
 //
 //  Created by Alberto Ayuso Boza on 3/4/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CardImage: View {
+struct CardImageView: View {
     let model: CardImageModel
     
     private let cardHeight: CGFloat = 220

@@ -8,11 +8,7 @@
 import SwiftUI
 
 @main
-struct Ayuso_MortyApp: App {
-    init() {
-        ImageCache.registerNotifications()
-    }
-    
+struct Ayuso_MortyApp: App {    
     var body: some Scene {
         WindowGroup {
             DashboardView()
