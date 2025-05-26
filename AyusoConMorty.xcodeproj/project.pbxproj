@@ -37,6 +37,7 @@
 				App/AyusoConMortyApp.swift,
 				App/LaunchScreen.storyboard,
 				Core/Cache/ImageCache.swift,
+				"Core/Cache/ImageCache+Environment.swift",
 				DesignSystem/Components/CardImage/CardImageModel.swift,
 				DesignSystem/Components/CardImage/CardImageView.swift,
 				DesignSystem/Components/Image/ImageLoader.swift,

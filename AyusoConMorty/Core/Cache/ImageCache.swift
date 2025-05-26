@@ -14,11 +14,10 @@ import UIKit
 /// - It has a function capable of activating a 7 minute timer to destroy the image cache.
 ///
 final class ImageCache {
-    static let shared = ImageCache()
     private let cache = NSCache<NSString, UIImage>()
     private var timer: Timer?
     
-    private init() {
+    init() {
         registerNotifications()
     }
     

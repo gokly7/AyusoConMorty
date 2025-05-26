@@ -10,22 +10,27 @@ import Combine
 
 final class ImageLoader: ObservableObject {
     @Published var image: UIImage?
+
     private let urlString: String
-    private var cancellable: AnyCancellable?
-    
-    init(urlString: String) {
+    var cancellable: AnyCancellable?
+
+    let cache: ImageCache
+
+    init(urlString: String, cache: ImageCache) {
         self.urlString = urlString
+        self.cache = cache
         loadImage()
     }
-    
+
     private func loadImage() {
         guard let url = URL(string: urlString) else { return }
-        
-        //See if we have this image in cache
-        if let cachedImage = ImageCache.shared.get(forKey: urlString) {
+
+        // Check if image exists in cache
+        if let cachedImage = cache.get(forKey: urlString) {
             self.image = cachedImage
             return
         }
+
         // Download image from URL
         cancellable = URLSession.shared.dataTaskPublisher(for: url)
             .map { UIImage(data: $0.data) }
@@ -33,11 +38,11 @@ final class ImageLoader: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] downloadedImage in
                 guard let self = self, let downloadedImage = downloadedImage else { return }
-                ImageCache.shared.set(downloadedImage, forKey: self.urlString)
+                self.cache.set(downloadedImage, forKey: self.urlString)
                 self.image = downloadedImage
             }
     }
-    
+
     deinit {
         cancellable?.cancel()
     }
