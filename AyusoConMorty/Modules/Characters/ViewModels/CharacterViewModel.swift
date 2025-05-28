@@ -8,13 +8,19 @@
 import SwiftUI
 
 final class CharacterViewModel: ObservableObject {
-    @Published var characters: [Character] = []
-    
-    internal var cacheCharacters: [Character] = []
-    internal var isLoading: Bool = false
+    @Published var characters: [ACMCharacter] = []
+    @Published var isLoading: Bool = false
+
+    private var cacheCharacters: [ACMCharacter] = []
     private var currentPage: Int = 1
     private var totalPages: Int = 1
-    
+
+    private let service: CharacterServiceProtocol
+
+    init(service: CharacterServiceProtocol = CharacterService()) {
+        self.service = service
+    }
+
     /// Load characters from the Rick and Morty API.
     ///
     /// It is an asynchronous function that is responsible for:
@@ -23,25 +29,13 @@ final class CharacterViewModel: ObservableObject {
     /// - Add all the characters from the page to the array characters.
     ///
     func loadPageCharacters() async {
-        //Check if there is no character loading in progress or if there are more pages left to load.
         await MainActor.run {
             guard !isLoading, currentPage <= totalPages else { return }
             isLoading = true
         }
-        
-        let urlString = "https://rickandmortyapi.com/api/character?page=\(currentPage)"
-        
-        guard let url = URL(string: urlString) else {
-            await MainActor.run {
-                isLoading = false
-            }
-            return
-        }
-        
+
         do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            let response = try JSONDecoder().decode(APIModel.self, from: data)
-            
+            let response = try await service.fetchCharacters(page: currentPage)
             await MainActor.run {
                 self.characters.append(contentsOf: response.results)
                 self.cacheCharacters = self.characters
@@ -50,11 +44,11 @@ final class CharacterViewModel: ObservableObject {
                 self.isLoading = false
             }
         } catch {
-            print("CharacterViewModel, 'loadPageCharacters()' Error: \(error)")
+            print("Error loading characters: \(error)")
             await MainActor.run { self.isLoading = false }
         }
     }
-    
+
     /// Search for a character from the Rick and Morty API.
     ///
     /// - Parameters:
@@ -68,67 +62,35 @@ final class CharacterViewModel: ObservableObject {
     /// - Filter if there is one in the character array that contains the same name as the name you searched for and then add the characters found in the characters array
     ///
     func searchCharacter(text: String) async {
+        let query = text.trimmingCharacters(in: .whitespaces)
         //Back to results of loadPageCharacters() if text is Empty
-        if text.isEmpty {
-            await MainActor.run {
-                self.characters = self.cacheCharacters
-            }
+        if query.isEmpty {
+            await MainActor.run { self.characters = self.cacheCharacters }
             return
         }
-        let clearLastSpace = text.replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)
-        let encodedQuery = clearLastSpace.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        var page = 1
-        var totalPages = 1
-        var allCharactersFound: [Character] = []
-        
+
+    var allResults: [ACMCharacter] = []
+    var page = 1
+        var pages = 1
+
         repeat {
-            let urlString = "https://rickandmortyapi.com/api/character/?name=\(encodedQuery)&page=\(page)"
-            guard let url = URL(string: urlString) else {
-                break
-            }
-            
             do {
-                let (data, _) = try await URLSession.shared.data(from: url)
-    
-                if let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data),
-                       errorResponse.error == "There is nothing here" {
-                        break
-                    }
-                
-                let response = try JSONDecoder().decode(APIModel.self, from: data)
-                allCharactersFound.append(contentsOf: response.results)
-                totalPages = response.info.pages
+                let resp = try await service.searchCharacters(name: query, page: page)
+                allResults.append(contentsOf: resp.results)
+                pages = resp.info.pages
                 page += 1
             } catch {
-                print("CharacterViewModel, 'searchCharacter()' Error: \(error)")
                 break
             }
-        } while page <= totalPages
-        
+        } while page <= pages
+
         //Check if it is the exact name of the character (Ignore capital letters)
-        let filterCharacters = allCharactersFound.filter { $0.name.lowercased() == clearLastSpace.lowercased() }
-        
+        let filtered = allResults.filter {
+            $0.name.lowercased() == query.lowercased()
+        }
+
         await MainActor.run {
-            self.characters = filterCharacters
+            self.characters = filtered
         }
     }
-}
-
-/// This model needs to have the variable names with the same names as the JSON keys of the API "rickandmortyapi"
-private struct APIModel: Codable {
-    let info: Info
-    let results: [Character]
-}
-
-/// This model needs to have the variable names with the same names as the keys in the key "character"
-private struct Info: Codable {
-    let count: Int
-    let pages: Int
-    let next: String?
-    let prev: String?
-}
-
-/// This model contains the values ​​that the request can return when an error occurs.
-private struct ErrorResponse: Codable {
-    let error: String
 }

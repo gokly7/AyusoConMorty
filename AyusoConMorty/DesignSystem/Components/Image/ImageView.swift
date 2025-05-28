@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import UIKit
 
 /// Image container view
 ///
@@ -15,16 +14,30 @@ import UIKit
 /// - Creates an Imageview containing the image
 ///
 struct ImageView<Content: View>: View {
+    @Environment(\.imageCache) private var cache
+    private let urlString: String
     private let content: (Image?) -> Content
-    @StateObject private var loader: ImageLoader
-    
+
     init(urlString: String, @ViewBuilder content: @escaping (Image?) -> Content) {
-        _loader = StateObject(wrappedValue: ImageLoader(urlString: urlString))
+        self.urlString = urlString
         self.content = content
     }
     
     var body: some View {
-        // Wrap the UiImage in an Image for use in SwiftUI
-        content(loader.image.map { Image(uiImage: $0) })
+        ImageViewContainer(urlString: urlString, cache: cache, content: content)
+    }
+
+    private struct ImageViewContainer: View {
+        @StateObject private var loader: ImageLoader
+        private let content: (Image?) -> Content
+
+        init(urlString: String, cache: ImageCache, @ViewBuilder content: @escaping (Image?) -> Content) {
+            _loader = StateObject(wrappedValue: ImageLoader(urlString: urlString, cache: cache))
+            self.content = content
+        }
+
+        var body: some View {
+            content(loader.image.map { Image(uiImage: $0) })
+        }
     }
 }

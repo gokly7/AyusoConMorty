@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CharacterSheet: View {
     @Environment(\.presentationMode) var presentationMode
-    @State var character: Character
+    @State var character: ACMCharacter
     
     var body: some View {
         NavigationView {

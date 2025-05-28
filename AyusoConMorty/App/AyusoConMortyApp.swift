@@ -8,7 +8,9 @@
 import SwiftUI
 
 @main
-struct Ayuso_MortyApp: App {    
+struct Ayuso_MortyApp: App {
+    private let cache = ImageCache()
+    
     var body: some Scene {
         WindowGroup {
             DashboardView()

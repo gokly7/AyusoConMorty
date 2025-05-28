@@ -30,59 +30,55 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		914F353C2DC77AAF00B7F6D1 /* Exceptions for "AyusoConMorty" folder in "AyusoConMorty" target */ = {
+		91EE43952DE778F90035DEC3 /* Exceptions for "AyusoConMorty" folder in "AyusoConMortyTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				"/Localized: Resources/Localizable/Localizable.strings",
 				App/AyusoConMortyApp.swift,
 				App/LaunchScreen.storyboard,
 				Core/Cache/ImageCache.swift,
-				DesignSystem/Components/CardImage/CardImageModel.swift,
+				"Core/Cache/ImageCache+Environment.swift",
 				DesignSystem/Components/CardImage/CardImageView.swift,
 				DesignSystem/Components/Image/ImageLoader.swift,
 				DesignSystem/Components/Image/ImageView.swift,
 				DesignSystem/Components/TextFieldSearch/TextfieldSearch.swift,
 				DesignSystem/Foundations/Spacing.swift,
 				DesignSystem/Foundations/Typography.swift,
-				Modules/Characters/CharacterViewModelTest.swift,
-				"Modules/Characters/Extensions/CardImageModel+Character.swift",
-				Modules/Characters/Models/Character.swift,
-				Modules/Characters/Models/CharacterLocation.swift,
-				Modules/Characters/Models/CharacterStatus.swift,
-				Modules/Characters/ViewModels/CharacterViewModel.swift,
 				Modules/Characters/Views/CharacterSheet.swift,
 				Modules/Dashboard/Views/DashboardView.swift,
-				Resources/Assets.xcassets,
-			);
-			target = 915A0B8A2D9FFEB200B7C50D /* AyusoConMorty */;
-		};
-		914F353D2DC77AAF00B7F6D1 /* Exceptions for "AyusoConMorty" folder in "AyusoConMortyTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Tests/AyusoConMortyTests/AyusoConMortyTests.swift,
+				Tests/AyusoConMortyUITests/AyusoConMortyUITests.swift,
+				Tests/AyusoConMortyUITests/AyusoConMortyUITestsLaunchTests.swift,
 			);
 			target = 915A0B9B2D9FFEB500B7C50D /* AyusoConMortyTests */;
 		};
-		914F353E2DC77AAF00B7F6D1 /* Exceptions for "AyusoConMorty" folder in "AyusoConMortyUITests" target */ = {
+		91EE43972DE7790E0035DEC3 /* Exceptions for "AyusoConMorty" folder in "AyusoConMortyUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				"/Localized: Resources/Localizable/Localizable.strings",
-				DesignSystem/Components/CardImage/CardImageModel.swift,
+				App/AyusoConMortyApp.swift,
+				App/LaunchScreen.storyboard,
+				Core/Cache/ImageCache.swift,
+				"Core/Cache/ImageCache+Environment.swift",
 				DesignSystem/Components/CardImage/CardImageView.swift,
+				DesignSystem/Components/Image/ImageLoader.swift,
 				DesignSystem/Components/Image/ImageView.swift,
 				DesignSystem/Components/TextFieldSearch/TextfieldSearch.swift,
 				DesignSystem/Foundations/Spacing.swift,
 				DesignSystem/Foundations/Typography.swift,
-				Modules/Characters/CharacterViewModelTest.swift,
-				Modules/Characters/Models/Character.swift,
-				Modules/Characters/Models/CharacterLocation.swift,
-				Modules/Characters/Models/CharacterStatus.swift,
+				"Modules/Characters/Extensions/ACMCharacter+Testable.swift",
 				Modules/Characters/ViewModels/CharacterViewModel.swift,
 				Modules/Characters/Views/CharacterSheet.swift,
 				Modules/Dashboard/Views/DashboardView.swift,
-				Resources/Assets.xcassets,
+				Tests/AyusoConMortyTests/ViewModels/CharacterViewModelTest.swift,
 			);
 			target = 915A0BA52D9FFEB500B7C50D /* AyusoConMortyUITests */;
+		};
+		91EE43992DE7798A0035DEC3 /* Exceptions for "AyusoConMorty" folder in "AyusoConMorty" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Tests/AyusoConMortyTests/ViewModels/CharacterViewModelTest.swift,
+				Tests/AyusoConMortyUITests/AyusoConMortyUITests.swift,
+				Tests/AyusoConMortyUITests/AyusoConMortyUITestsLaunchTests.swift,
+			);
+			target = 915A0B8A2D9FFEB200B7C50D /* AyusoConMorty */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -90,9 +86,9 @@
 		914F35002DC77AA200B7F6D1 /* AyusoConMorty */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				914F353C2DC77AAF00B7F6D1 /* Exceptions for "AyusoConMorty" folder in "AyusoConMorty" target */,
-				914F353D2DC77AAF00B7F6D1 /* Exceptions for "AyusoConMorty" folder in "AyusoConMortyTests" target */,
-				914F353E2DC77AAF00B7F6D1 /* Exceptions for "AyusoConMorty" folder in "AyusoConMortyUITests" target */,
+				91EE43992DE7798A0035DEC3 /* Exceptions for "AyusoConMorty" folder in "AyusoConMorty" target */,
+				91EE43952DE778F90035DEC3 /* Exceptions for "AyusoConMorty" folder in "AyusoConMortyTests" target */,
+				91EE43972DE7790E0035DEC3 /* Exceptions for "AyusoConMorty" folder in "AyusoConMortyUITests" target */,
 			);
 			path = AyusoConMorty;
 			sourceTree = "<group>";
@@ -157,6 +153,9 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				914F35002DC77AA200B7F6D1 /* AyusoConMorty */,
+			);
 			name = AyusoConMorty;
 			packageProductDependencies = (
 			);
@@ -176,6 +175,9 @@
 			);
 			dependencies = (
 				915A0B9E2D9FFEB500B7C50D /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				914F35002DC77AA200B7F6D1 /* AyusoConMorty */,
 			);
 			name = AyusoConMortyTests;
 			packageProductDependencies = (
