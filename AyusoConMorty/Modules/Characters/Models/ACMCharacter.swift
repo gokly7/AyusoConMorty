@@ -1,5 +1,5 @@
 //
-//  Character.swift
+//  ACMCharacter.swift
 //  AyusoConMorty
 //
 //  Created by Alberto Ayuso Boza on 3/4/25.
@@ -21,7 +21,7 @@ import SwiftUI
 ///   - species: Character species
 ///   - gender: Character's gender
 ///   - location: Character location, use: `CharacterLocationModel`.
-struct Character: Codable, Identifiable, Equatable, Hashable {
+struct ACMCharacter: Codable, Identifiable, Equatable, Hashable {
     let id: Int
     let name: String
     let image: String

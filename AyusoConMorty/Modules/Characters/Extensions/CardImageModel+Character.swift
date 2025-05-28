@@ -8,7 +8,7 @@
 import SwiftUI
 
 extension CardImageModel {
-    init(character: Character) {
+    init(character: ACMCharacter) {
         self.init(
             image: character.image,
             title: character.name,

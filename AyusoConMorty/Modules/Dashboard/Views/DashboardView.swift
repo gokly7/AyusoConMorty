@@ -12,7 +12,7 @@ struct DashboardView: View {
     @Environment(\.scenePhase) private var scenePhase
     
     @State private var inputSearch: String = ""
-    @State private var selectedCharacter: Character? = nil
+    @State private var selectedCharacter: ACMCharacter? = nil
     
     private let columns = [GridItem(.flexible()), GridItem(.flexible())]
     
