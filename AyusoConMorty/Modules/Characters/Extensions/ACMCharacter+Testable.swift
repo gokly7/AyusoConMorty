@@ -7,8 +7,8 @@
 
 import Foundation
 
+/// This extension is for Tests
 extension ACMCharacter {
-    /// Iinitializer for tests
     init(
         id: Int,
         name: String,
