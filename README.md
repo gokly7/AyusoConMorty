@@ -4,7 +4,7 @@ AyusoConMorty es una aplicación de iOS desarrollada en SwiftUI que muestra una 
     Muestra los personajes en una vista de grid eficiente reusando celdas
 
     Búsqueda de personajes:
-    Utiliza un TextFieldSearch para buscar personajes, la búsqueda es por nombre de personaje exacto no por coincidencias, se activa al pulsar "enter" y se filtran los resultados.
+    Utiliza un TextFieldSearch para buscar personajes, se activa al pulsar "enter" y se filtran los resultados.
 
     Detalles en del personaje:
     Al tocar sobre una cardImage (personaje) se abre una sheet que muestra más información sobre el mismo.
@@ -25,6 +25,9 @@ Tecnologías
 
     Testing:
     Se incluyen tests unitarios y UI tests usando la API de Testing de Xcode.
+
+    Github Actions (Ci):
+    Asegurar que el proyecto compila y que los tests pasan
 
 Instalación
 
