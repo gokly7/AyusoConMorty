@@ -1,4 +1,4 @@
-name: iOS CI
+name: iOS Build & Test
 
 on:
   push:
@@ -6,71 +6,28 @@ on:
   pull_request:
 
 jobs:
-  build-and-test:
-    runs-on: macos-14        # Runner con Xcode 16 pre-instalado
+  test:
+    runs-on: macos-14        # Runner Apple Silicon con Xcode preinstalado
     steps:
       - uses: actions/checkout@v4
 
-      # Selecciona la versión exacta de Xcode que quieres (ajusta si cambia)
-      - name: Select Xcode 16
-        run: sudo xcode-select -s "/Applications/Xcode_16.0.app"
-
-      # (Opcional) Caché de SwiftPM para acelerar
-      - name: Cache SwiftPM
-        uses: actions/cache@v4
+      # Selecciona la versión de Xcode que ya existe en el runner
+      - uses: maxim-lobanov/setup-xcode@v1
         with:
-          path: |
-            ~/.swiftpm
-            ~/Library/Developer/Xcode/DerivedData
-          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+          xcode-version: '16.2'   # ajusta a la que quieras; 'latest-stable' también funciona
 
-      # Compila + tests en simulador
+      # Compila y lanza los tests en un simulador
       - name: Build & Test
         run: |
           xcodebuild test \
             -scheme AyusoConMorty \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=18.0' \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
             -resultBundlePath TestResults \
             | xcpretty -c
-      # Sube los resultados para inspección en la UI de GitHub
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
+
+      # Sube los resultados (opcional, útil en la UI de GitHub)
+      - uses: actions/upload-artifact@v4
         with:
           name: TestResults
           path: TestResults
-
-  build-ipa:
-    needs: build-and-test
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    runs-on: macos-14
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: Select Xcode 16
-        run: sudo xcode-select -s "/Applications/Xcode_16.0.app"
-
-      # Genera el .xcarchive en modo Release
-      - name: Archive
-        run: |
-          xcodebuild \
-            -scheme AyusoConMorty \
-            -configuration Release \
-            -destination 'generic/platform=iOS' \
-            -archivePath $PWD/build/AyusoConMorty.xcarchive \
-            archive
-
-      # Exporta el IPA usando tu ExportOptions.plist
-      - name: Export IPA
-        run: |
-          xcodebuild -exportArchive \
-            -archivePath $PWD/build/AyusoConMorty.xcarchive \
-            -exportOptionsPlist ExportOptions.plist \
-            -exportPath $PWD/build/ipa
-
-      # Lo dejamos como artefacto para descargar
-      - name: Upload IPA
-        uses: actions/upload-artifact@v4
-        with:
-          name: AyusoConMorty-IPA
-          path: build/ipa/*.ipa
 
