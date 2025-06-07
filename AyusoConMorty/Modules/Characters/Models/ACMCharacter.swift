@@ -9,7 +9,7 @@ import SwiftUI
 
 /// This model has the characters' data
 ///
-/// Implements the protocols `Codable`, `Identifiable`, `Equatable`, `Hashable`.
+/// Implements the protocols `Codable`, `Identifiable`, `Equatable`, `Hashable`,`Sendable`.
 /// This model is used to decode character information from the API and integrate with SwiftUI,
 /// allowing use in lists and views that require unique identification.
 ///
@@ -21,7 +21,7 @@ import SwiftUI
 ///   - species: Character species
 ///   - gender: Character's gender
 ///   - location: Character location, use: `CharacterLocationModel`.
-struct ACMCharacter: Codable, Identifiable, Equatable, Hashable {
+struct ACMCharacter: Codable, Identifiable, Equatable, Hashable, @unchecked Sendable {
     let id: Int
     let name: String
     let image: String

@@ -9,12 +9,13 @@ import SwiftUI
 
 final class CharacterViewModel: ObservableObject {
     @Published var characters: [ACMCharacter] = []
-    @Published var isLoading: Bool = false
+    @Published var isLoading = false
 
     private var cacheCharacters: [ACMCharacter] = []
-    private var currentPage: Int = 1
-    private var totalPages: Int = 1
+    private var currentPage = 1
+    private var totalPages = 1
 
+    private var isSearching = false
     private let service: CharacterServiceProtocol
 
     init(service: CharacterServiceProtocol = CharacterService()) {
@@ -28,24 +29,20 @@ final class CharacterViewModel: ObservableObject {
     /// - Download the data response into the APIModel array
     /// - Add all the characters from the page to the array characters.
     ///
+    @MainActor
     func loadPageCharacters() async {
-        await MainActor.run {
-            guard !isLoading, currentPage <= totalPages else { return }
-            isLoading = true
-        }
+        guard !isLoading, !isSearching, currentPage <= totalPages else { return }
+        isLoading = true
+        defer { isLoading = false }
 
         do {
-            let response = try await service.fetchCharacters(page: currentPage)
-            await MainActor.run {
-                self.characters.append(contentsOf: response.results)
-                self.cacheCharacters = self.characters
-                self.totalPages = response.info.pages
-                self.currentPage += 1
-                self.isLoading = false
-            }
+            let resp = try await service.fetchCharacters(page: currentPage)
+            characters.append(contentsOf: resp.results)
+            cacheCharacters = characters
+            totalPages = resp.info.pages
+            currentPage += 1
         } catch {
             print("Error loading characters: \(error)")
-            await MainActor.run { self.isLoading = false }
         }
     }
 
@@ -62,35 +59,40 @@ final class CharacterViewModel: ObservableObject {
     /// - Filter if there is one in the character array that contains the same name as the name you searched for and then add the characters found in the characters array
     ///
     func searchCharacter(text: String) async {
-        let query = text.trimmingCharacters(in: .whitespaces)
-        //Back to results of loadPageCharacters() if text is Empty
+        let query = text.trimmingCharacters(in: .whitespacesAndNewlines)
+
         if query.isEmpty {
-            await MainActor.run { self.characters = self.cacheCharacters }
+            await MainActor.run {
+                isSearching = false
+                characters = cacheCharacters
+            }
             return
         }
 
-    var allResults: [ACMCharacter] = []
-    var page = 1
+        await MainActor.run {
+            isSearching = true
+            isLoading = true
+        }
+
+        var charactersFound: [ACMCharacter] = []
+        var page = 1
         var pages = 1
 
         repeat {
             do {
                 let resp = try await service.searchCharacters(name: query, page: page)
-                allResults.append(contentsOf: resp.results)
+                charactersFound.append(contentsOf: resp.results)
                 pages = resp.info.pages
                 page += 1
-            } catch {
-                break
-            }
+            } catch { break }
         } while page <= pages
 
-        //Check if it is the exact name of the character (Ignore capital letters)
-        let filtered = allResults.filter {
-            $0.name.lowercased() == query.lowercased()
-        }
+        let results = charactersFound
 
-        await MainActor.run {
-            self.characters = filtered
+        await MainActor.run { [results] in
+            characters = results
+            isSearching = false
+            isLoading = false
         }
     }
 }
